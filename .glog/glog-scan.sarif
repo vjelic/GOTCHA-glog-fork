@@ -10,20 +10,7 @@
           "version": "1.0.0",
           "semanticVersion": "1.0.0",
           "informationUri": "https://www.glog.ai",
-          "rules": [
-            {
-              "id": "glog-889e73bb-1d29-4356-91e0-8161ada5ae06",
-              "help": {
-                "text": "",
-                "markdown": "## Description\n\nThe `strlen` function in C++ is used to find the length of a string. However, it can lead to vulnerabilities if not used properly. The function counts the number of characters in a string until it reaches a null character (`\\0`). If the string is not null-terminated, `strlen` will continue reading memory until it encounters a null character, potentially leading to buffer overflows, memory corruption, and other undefined behaviors.\n\n## Mitigation Advice\n\nTo mitigate this vulnerability, always ensure that your strings are null-terminated. Avoid using `strlen` on strings that are not guaranteed to be null-terminated. Instead, consider using safer alternatives such as `strnlen`, which takes an additional parameter to specify the maximum number of characters to be examined.\n\n## Source Code Fix Recommendation\n\nInstead of:\n\n```cpp\nstrlen(\"Seventh line\\n\");\n```\n\nConsider using:\n\n```cpp\nstrnlen(\"Seventh line\\n\", 13);\n```\n\nIn this case, `strnlen` will stop reading after 13 characters, even if it doesn't encounter a null character.\n\n## Library Dependencies\n\nThe `strlen` function is part of the C standard library (`<cstring>` in C++), so no additional libraries are needed.\n\n## References\n\n- [OWASP C++ Secure Coding Practices](https://cheatsheetseries.owasp.org/cheatsheets/C-Based_Toolchain_Hardening_Cheat_Sheet.html)\n- [CWE-126: Buffer Over-read](https://cwe.mitre.org/data/definitions/126.html)\n\nPlease note that the links provided are accessible to anonymous users at the time of writing this report."
-              },
-              "properties": {
-                "tags": [
-                  "DS140021"
-                ]
-              }
-            }
-          ],
+          "rules": [],
           "language": "en-US",
           "contents": [
             "localizedData",
@@ -33,96 +20,7 @@
         }
       },
       "language": "en-US",
-      "results": [
-        {
-          "ruleId": "glog-889e73bb-1d29-4356-91e0-8161ada5ae06",
-          "kind": "fail",
-          "level": "note",
-          "message": {
-            "text": "Detected Vulnerability in C Function (strlen)"
-          },
-          "locations": [
-            {
-              "physicalLocation": {
-                "artifactLocation": {
-                  "uri": "src/example/autotee/test_autotee.c"
-                },
-                "region": {
-                  "startLine": 40,
-                  "startColumn": 30,
-                  "endLine": 40,
-                  "endColumn": 54,
-                  "charOffset": 1442,
-                  "charLength": 24,
-                  "snippet": {
-                    "text": "strlen(\"Seventh line\\n\")",
-                    "rendered": {
-                      "text": "strlen(\"Seventh line\\n\")",
-                      "markdown": "`strlen(\"Seventh line\\n\")`"
-                    }
-                  },
-                  "sourceLanguage": "c"
-                }
-              }
-            }
-          ],
-          "fixes": [
-            {
-              "description": {
-                "text": "If a string is missing a null terminator, strlen will read past the end of the buffer"
-              },
-              "artifactChanges": [
-                {
-                  "artifactLocation": {
-                    "uri": "src/example/autotee/test_autotee.c"
-                  },
-                  "replacements": [
-                    {
-                      "deletedRegion": {
-                        "charOffset": 1442,
-                        "charLength": 24
-                      },
-                      "insertedContent": {
-                        "text": "strlen_s(\"Seventh line\\n\", <size of \"Seventh line\\n\">)"
-                      }
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "description": {
-                "text": "If a string is missing a null terminator, strlen will read past the end of the buffer"
-              },
-              "artifactChanges": [
-                {
-                  "artifactLocation": {
-                    "uri": "src/example/autotee/test_autotee.c"
-                  },
-                  "replacements": [
-                    {
-                      "deletedRegion": {
-                        "charOffset": 1442,
-                        "charLength": 24
-                      },
-                      "insertedContent": {
-                        "text": "strnlen(\"Seventh line\\n\", <size of \"Seventh line\\n\">)"
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          ],
-          "properties": {
-            "DevSkimSeverity": "BestPractice",
-            "DevSkimConfidence": "High",
-            "tags": [
-              "API.DangerousAPI.ProblematicFunction"
-            ]
-          }
-        }
-      ],
+      "results": [],
       "newlineSequences": [
         "\r\n",
         "\n"
